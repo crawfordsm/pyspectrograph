@@ -1,0 +1,13 @@
+
+0.3
+-Move to github
+
+0.23
+-Updated the RSS model
+
+0.211
+-Bug fix in findobj so it always returns valid coordinates for objects
+
+0.21 
+
+0.20
