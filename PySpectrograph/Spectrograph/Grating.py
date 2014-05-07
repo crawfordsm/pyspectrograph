@@ -14,7 +14,7 @@ class Grating:
        self.width  = width 
        self.thickness = thickness
        self.sigma = 1.0/spacing
-       self.blaze = 0.0
+       self.blaze = blaze
        self.name = name
        self.type=type
        #set the sign for the grating equation
