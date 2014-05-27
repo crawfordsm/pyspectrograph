@@ -29,7 +29,7 @@ import WavelengthSolution
 #import Identify
 
 __all__=['Identify','Models','Spectra','Spectrograph','Utilities','WavelengthSolution']
-__version__=0.23
+__version__=0.30
 
 #general class for errors
 
