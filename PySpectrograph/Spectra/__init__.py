@@ -1,8 +1,7 @@
-"""Spectra includes models for a spectrum 
+"""Spectra includes models for a spectrum
 
 
 """
 
-import Spectrum
+from . import Spectrum
 #from Spectrum import Spectrum
-
