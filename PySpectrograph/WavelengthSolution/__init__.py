@@ -4,4 +4,4 @@ pixel position and wavelength in an observed 1- or 2-D spectrum
 
 """
 
-import WavelengthSolution
+from . import WavelengthSolution

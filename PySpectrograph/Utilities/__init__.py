@@ -1,4 +1,4 @@
-"""Utilities is part of The PySpectrograph package  and holds general tasks 
+"""Utilities is part of The PySpectrograph package  and holds general tasks
 that are useful in the reduction and analysis of spectroscopic data
 
  * degremath--trigometric functions for arrays and scalars in degrees
@@ -8,6 +8,6 @@ that are useful in the reduction and analysis of spectroscopic data
 
 """
 
-import degreemath
-import fit
-import Functions
+from . import degreemath
+from . import fit
+from . import Functions
