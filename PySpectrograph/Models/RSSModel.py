@@ -118,7 +118,7 @@ class RSSModel (Spectrograph):
                 pass
             else:
                 # version 1
-                #ccd1=Spectrograph.CCD(name='CCD1',  xpix=2032, ypix=4102, pix_size=0.015, xpos=-32.19, ypos=0)
+                # ccd1=Spectrograph.CCD(name='CCD1',  xpix=2032, ypix=4102, pix_size=0.015, xpos=-32.19, ypos=0)
                 # updated on 20120325
                 ccd1 = CCD(name='CCD1', xpix=2032, ypix=4102, pix_size=0.015, xpos=-32.40, ypos=0.0486)
                 ccd2 = CCD(name='CCD1', xpix=2032, ypix=4102, pix_size=0.015, xpos=0, ypos=0)
