@@ -79,9 +79,9 @@ def interpolate(x, x_arr, y_arr, type='interp', order=3, left=None, right=None):
     if type == 'interp':
         y = np.interp(x, x_arr, y_arr, left=left, right=right)
     if type == 'spline':
-        if not left is None:
+        if left is not None:
             y_arr[0] = left
-        if not right is None:
+        if right is not None:
             y_arr[-1] = right
 
         tk = scint.splrep(x_arr, y_arr, k=order)

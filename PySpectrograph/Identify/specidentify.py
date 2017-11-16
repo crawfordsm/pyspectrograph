@@ -191,7 +191,7 @@ def identify(img, oimg, slines, sfluxes, guesstype, guessfile, function, order,
         rss = rssmodel.rss
         res = 1e7 * rss.calc_resolelement(rss.gratang, rss.gratang - rss.camang)
 
-        if not instrume in ['PFIS', 'RSS']:
+        if instrume not in ['PFIS', 'RSS']:
             msg = '%s is not a currently supported instrument' % instrume
             raise SALTSpecError(msg)
         ws = useRSSModel(xarr, rss, function=function, order=order)
