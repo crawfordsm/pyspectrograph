@@ -147,7 +147,7 @@ def deblendObjects(ldata, y1, y2, thresh=3.0, niter=5, minsize=3):
     try:
         pos_ind = np.where(gdata >= 0)[0].max()
         neg_ind = np.where(gdata <= 0)[0].min()
-    except:
+    except BaseException:
         return [(y1, y2)]
 
     # If this is true, then there is only a single object to extract

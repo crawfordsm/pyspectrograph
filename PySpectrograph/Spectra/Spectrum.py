@@ -135,6 +135,7 @@ class Spectrum:
         self.flux = np.interp(warr, self.wavelength, self.flux)
         self.wavelength = warr
 
+
 """
 TODO:
 Here's the full text from Morton 1991 ApJS 77, 119 and it is a
