@@ -12,7 +12,18 @@ Utilities--General useful tasks
 
 """
 
+from . import Utilities
+from .Spectrograph import *
+from . import Models
+from . import Spectra
+from .Spectra import *
+from . import WavelengthSolution
 
+__all__ = ['Identify', 'Models', 'Spectra', 'Spectrograph', 'Utilities', 'WavelengthSolution']
+__version__ = 0.30
+
+
+# general class for errors
 class SpectrographError(Exception):
 
     """Exception Raised for Spectrograph errors"""
@@ -23,17 +34,3 @@ class PySpectrographError(Exception):
 
     """Exception Raised for PySpectrograph errors"""
     pass
-
-from . import Utilities
-#import Spectrograph
-from .Spectrograph import *
-from . import Models
-from . import Spectra
-from .Spectra import *
-from . import WavelengthSolution
-#import Identify
-
-__all__ = ['Identify', 'Models', 'Spectra', 'Spectrograph', 'Utilities', 'WavelengthSolution']
-__version__ = 0.30
-
-# general class for errors
