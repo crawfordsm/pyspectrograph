@@ -3,7 +3,6 @@
 #
 # This is adopted from apextract
 #
-import math
 import numpy as np
 import scipy.ndimage as nd
 
@@ -179,8 +178,8 @@ def plotdata(ldata, obj_arr):
     x = np.arange(nlen)
     makeplots.figure(figsize=(6, 6), dpi=72)
     ay = makeplots.axes([0.15, 0.10, 0.8, 0.8])
-    #ay.imshow(med_data, cmap=makeplots.cm.gray, aspect='equal', vmin=-5, vmax=50  )
+    # y.imshow(med_data, cmap=makeplots.cm.gray, aspect='equal', vmin=-5, vmax=50  )
     makeplots.plotline(ay, x, np.gradient(ldata))
-    #makeplots.plotline(ay, x, gdata)
+    # makeplots.plotline(ay, x, gdata)
     makeplots.plotline(ay, x, obj_arr * 100)
     makeplots.show()
