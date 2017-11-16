@@ -17,22 +17,11 @@ LIMITATIONS
 import pyfits
 import numpy as np
 from scipy import interpolate as scint
-from pyraf import iraf
-import saltprint
-import saltkey
-import saltio
-import salttime
-import saltstat
-import saltsafekey
-import saltsafeio
-import slottool
 from salterror import SaltError
-
 
 from PySpectrograph import WavelengthSolution
 from PySpectrograph.detectlines import detectlines, centroid
 from PySpectrograph.Spectrum import Spectrum
-from PySpectrograph.apext import apext
 
 
 class SALTSpecError(SaltError):
@@ -410,8 +399,6 @@ def findxcor(xarr, farr, swarr, sfarr, ws, dcoef=None, nstep=20, inttype='interp
 
     # loop through them and deteremine the best cofficient
     cc_arr = np.zeros(len(dlist), dtype=float)
-    zp_arr = np.zeros(len(dlist), dtype=float)
-    dp_arr = np.zeros(len(dlist), dtype=float)
     for i in range(len(dlist)):
         # set the coeficient
         nws.setcoef(dlist[i])
@@ -437,12 +424,12 @@ def findxcor(xarr, farr, swarr, sfarr, ws, dcoef=None, nstep=20, inttype='interp
             if abs(bval - bcoef[j]) < dcoef[j]:
                 bcoef[j] = bval
 
-            #coef=np.polyfit(dlist[:][j], cc_arr, 2)
+            # coef=np.polyfit(dlist[:][j], cc_arr, 2)
             # nws.coef[j]=-0.5*coef[1]/coef[0]
 
     return nws
 
-#------------------------------------------------------------------
+# ------------------------------------------------------------------
 # Read in the line list file
 
 
@@ -455,7 +442,6 @@ def readlinelist(linelist):
     """
     slines = []
     sfluxes = []
-    status = 0
 
     # Check to see if it is a fits file
     # if not, then read in the ascii file
@@ -478,11 +464,11 @@ def readlinelist(linelist):
         sfluxes = np.asarray(sfluxes)
     except Exception as e:
         message = 'Unable to create numpy arrays because %s' % (e)
-        raise SALTSpecError(logfile, message)
+        raise SALTSpecError(message)
 
     return slines, sfluxes
 
-#------------------------------------------------------------------
+# ------------------------------------------------------------------
 # Read in the line list file
 
 
@@ -503,7 +489,6 @@ def readfitslinelist(linelist):
     # otherwise assume the data is in the first extension
     # assumes the x-axis is the wavelength axis
     if nhdu == 1:
-        ctype1 = shdu[0].header['CTYPE1']
         crval1 = shdu[0].header['CRVAL1']
         cdelt1 = shdu[0].header['CDELT1']
         if shdu[0].data.ndim == 1:
@@ -523,7 +508,7 @@ def readfitslinelist(linelist):
 
     return slines, sfluxes
 
-#------------------------------------------------------------------
+# ------------------------------------------------------------------
 # Read in the line list file
 
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-################################# LICENSE ##################################
+#   ############################# LICENSE ###############################
 # Copyright (c) 2009, South African Astronomical Observatory (SAAO)        #
 # All rights reserved.                                                     #
 #                                                                          #
@@ -29,7 +29,7 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN #
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE          #
 # POSSIBILITY OF SUCH DAMAGE.                                              #
-############################################################################
+#   #####################################################################
 """
 AutoIDENTIFY  is a program to automatically identify spectral lines in
 an arc image.
@@ -46,31 +46,14 @@ LIMITATIONS
 -----------
 
 """
-# Ensure python 2.5 compatibility
 
-import os
 import sys
 import time
 import numpy as np
 
-from pyraf import iraf
-import saltprint
-import saltio
-import saltkey
-import saltsafekey
-import saltsafeio
-from saltsafelog import logging
-from salterror import SaltError, SaltIOError
-
-
-from PySpectrograph import RSSModel
 from PySpectrograph import apext
-from PySpectrograph import WavelengthSolution
-from PySpectrograph.detectlines import detectlines
-
 
 from . import spectools as st
-from .spectools import SALTSpecError
 
 debug = True
 
@@ -168,11 +151,9 @@ def runsolution(xarr, specarr, slines, sfluxes, ws, func, ivar=None,
         icenter = int(0.5 * len(specarr))
 
     # set up the flux from the central line (or the line specified by the user in icenter)
-    specext = apext.apext(xarr, specarr, ivar=ivar)
     farr = apext.makeflat(specarr, icenter, icenter + nrows)
     farr = st.flatspectrum(xarr, farr, mode='poly', order=2)
     cxp = st.detectlines(xarr, farr, dsigma, dniter)
-    nlines = len(cxp)
 
     # first set up the artificial spectrum
     swarr, sfarr = st.makeartificial(slines, sfluxes, farr.max(), res, dres)

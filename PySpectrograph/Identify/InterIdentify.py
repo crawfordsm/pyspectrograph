@@ -1,4 +1,4 @@
-################################# LICENSE ##################################
+#   ############################# LICENSE ###############################
 # Copyright (c) 2009, South African Astronomical Observatory (SAAO)        #
 # All rights reserved.                                                     #
 #                                                                          #
@@ -28,7 +28,7 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN #
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE          #
 # POSSIBILITY OF SUCH DAMAGE.                                              #
-############################################################################
+#   #####################################################################
 
 """INTERIDENTIFY provides an interactive method for identifying
 lines in an arc image.  The tasks displays the full image, a
@@ -59,26 +59,17 @@ LIMITATIONS
 
 # General imports
 import sys
-import os
 import numpy as np
-import pyfits
-from pyraf import iraf
-from pyraf.iraf import pysalt
 
 # Gui library imports
 from PyQt4 import QtGui, QtCore
 from matplotlib.backends.backend_qt4agg import NavigationToolbar2QTAgg
 
 # Salt imports
-import saltsafeio
 from saltgui import ImageDisplay, MplCanvas
-from salterror import SaltIOError
 
 from PySpectrograph import apext
 from PySpectrograph import Spectrum
-#from PySpectrograph import RSSModel
-#from PySpectrograph import WavelengthSolution
-#from PySpectrograph.detectlines import detectlines
 
 from . import spectools as st
 from .spectools import SALTSpecError
@@ -167,7 +158,7 @@ class InterIdentifyWindow(QtGui.QMainWindow):
         self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
 
         # Close when config dialog is closed
-        #self.connect(self.conf, QtCore.SIGNAL('destroyed()'), self, QtCore.SLOT('close()'))
+        # self.connect(self.conf, QtCore.SIGNAL('destroyed()'), self, QtCore.SLOT('close()'))
         self.connect(self.tabWidget, QtCore.SIGNAL('currentChanged(int)'), self.currentChanged)
         self.connect(self.imagePage, QtCore.SIGNAL('regionChange(int,int)'), self.regionChange)
 
@@ -427,8 +418,8 @@ class arcWidget(QtGui.QWidget):
         """Add the x and w points to the list of matched points"""
         x = float(self.x1ValueLabel.text())
         w = float(self.w1ValueEdit.text())
-        #x=[1904.5, 1687.22, 3124.3499999999999, 632.57000000000005]
-        #w=[4671.2259999999997, 4624.2757000000001, 4916.5100000000002, 4383.9092000000001]
+        # x=[1904.5, 1687.22, 3124.3499999999999, 632.57000000000005]
+        # w=[4671.2259999999997, 4624.2757000000001, 4916.5100000000002, 4383.9092000000001]
         self.arcdisplay.addpoints(x, w)
 
 
