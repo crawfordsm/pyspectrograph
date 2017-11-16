@@ -1,6 +1,7 @@
-
-import pyfits
 import numpy as np
+from astropy.io import fits
+
+from PySpectrograph.Models import RSSModel
 
 inimage = 'fmbxpP200610180009.fits'
 
@@ -19,7 +20,7 @@ wp = np.array([4500.9772,
 
 
 def test_Identify():
-    hdu = pyfits.open(inimage)
+    hdu = fits.open(inimage)
 
     # create the data arra
     data = hdu[1].data

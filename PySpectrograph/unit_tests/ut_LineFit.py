@@ -33,11 +33,9 @@ def test_Linefit():
     data = hdu[1].data
 
     # create the header information
-    instrume = hdu[1].header['INSTRUME'].strip()
     grating = hdu[1].header['GRATING'].strip()
     grang = hdu[1].header['GR-ANGLE']
     arang = hdu[1].header['AR-ANGLE']
-    filter = hdu[1].header['FILTER'].strip()
     slit = float(hdu[1].header['MASKID'])
     xbin, ybin = hdu[1].header['CCDSUM'].strip().split()
 
@@ -63,7 +61,7 @@ def test_Linefit():
     # create artificial spectrum
     stype = 'line'
     w, s = np.loadtxt(inspectra, usecols=(0, 1), unpack=True)
-    cal_spec = Spectrum(w, s, wrange=[4000, 5000], dw=0.1, stype='line', sigma=sigma)
+    cal_spec = Spectrum(w, s, wrange=[4000, 5000], dw=0.1, stype=stype, sigma=sigma)
     cal_spec.flux = cal_spec.set_dispersion(sigma=sigma)
     cal_spec.flux = cal_spec.flux * obs_spec.flux.max() / cal_spec.flux.max() + 1
 

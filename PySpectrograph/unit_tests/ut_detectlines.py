@@ -1,6 +1,5 @@
 import numpy as np
 from detectlines import *
-import pylab as pl
 
 infile = 'Xe.01.spec'
 inlist = 'Xe.dat'
@@ -14,7 +13,8 @@ def centroid2(warr, farr, mask):
 
 def test_centroid():
     xc = 30.2
-    gaussian = lambda x: 3 * np.exp(-0.5 * (xc - x) ** 2 / (3.16 ** 2.))
+
+    def gaussian(x): return 3 * np.exp(-0.5 * (xc - x) ** 2 / (3.16 ** 2.))
     x = np.arange(-50, 50)
     f = gaussian(x)
 
@@ -41,7 +41,6 @@ def test_find_backstats():
 def test_find_peaks():
     warr, farr = np.loadtxt(infile, unpack=True)
     xp = find_peaks(farr, 10, 5)
-    wdiff = 10
     for x, w in zip(xp, plist):
         if warr[x] != w:
             print("FAIL", warr[x], w)
@@ -56,6 +55,7 @@ def test_detectlines():
         print('FAIL center=False')
     if (np.array(wlist, dtype=float) - cwp).mean() > 0.01:
         print('FAIL center=True')
+
 
 test_centroid()
 test_find_backstats()

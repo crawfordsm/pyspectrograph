@@ -31,4 +31,5 @@ def test_LineSolution():
     pl.show()
     return
 
+
 test_LineSolution()

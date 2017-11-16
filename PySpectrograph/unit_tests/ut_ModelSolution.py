@@ -59,8 +59,9 @@ def test_ModelSolution():
 
     pl.figure()
     pl.plot(xp, wp - ls.value(xp), ls='', marker='o')
-    #pl.plot(ls.x, ls.y-ls(ls.x), ls='', marker='o')
+    # pl.plot(ls.x, ls.y-ls(ls.x), ls='', marker='o')
     pl.show()
     return
+
 
 test_ModelSolution()

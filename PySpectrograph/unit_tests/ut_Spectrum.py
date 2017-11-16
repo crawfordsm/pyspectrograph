@@ -1,4 +1,3 @@
-#import Spectrum
 from PySpectrograph import Spectrum
 import numpy as np
 import pylab as pl
@@ -49,6 +48,7 @@ def test_vacuum():
         print("ERROR in MORTON VAC2AIR calculation")
 
     # check that it works with a
+
 
 test_spectrum()
 test_vacuum()

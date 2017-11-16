@@ -1,6 +1,7 @@
-import pyfits
 import numpy as np
 import pylab as pl
+
+from astropy.io import fits
 
 from PySpectrograph.WavelengthSolution import WavelengthSolution as WS
 from PySpectrograph.Models import RSSModel
@@ -35,24 +36,22 @@ def test_LineSolution():
 
     pl.figure()
     pl.plot(xp, wp - ws.value(xp), ls='', marker='o')
-    #pl.plot(ls.x, ls.y-ls(ls.x), ls='', marker='o')
+    # pl.plot(ls.x, ls.y-ls(ls.x), ls='', marker='o')
     pl.show()
     return
 
 
 def test_ModelSolution():
 
-    hdu = pyfits.open(inimage)
+    hdu = fits.open(inimage)
 
     # create the data arra
     data = hdu[1].data
 
     # create the header information
-    instrume = hdu[1].header['INSTRUME'].strip()
     grating = hdu[1].header['GRATING'].strip()
     grang = hdu[1].header['GR-ANGLE']
     arang = hdu[1].header['AR-ANGLE']
-    filter = hdu[1].header['FILTER'].strip()
     slit = float(hdu[1].header['MASKID'])
     xbin, ybin = hdu[1].header['CCDSUM'].strip().split()
 
@@ -73,7 +72,7 @@ def test_ModelSolution():
     dbeta = np.degrees(np.arctan(d / rss.camera.focallength))
     y = 1e7 * rss.calc_wavelength(alpha, beta - dbeta)
 
-    #ws=WS.WavelengthSolution(xp, wp, function='model', sgraph=rssmodel.rss, xlen=len(data[0]), order=4, cfit='all')
+    # ws=WS.WavelengthSolution(xp, wp, function='model', sgraph=rssmodel.rss, xlen=len(data[0]), order=4, cfit='all')
     ws = WS.WavelengthSolution(
         xarr,
         y,
@@ -84,8 +83,8 @@ def test_ModelSolution():
         order=4,
         cfit='ndcoef')
 
-    #ws=WS.WavelengthSolution(xarr, y, function='poly', order=3)
-    #ws=WS.WavelengthSolution(xp, wp, function='poly', order=3)
+    # ws=WS.WavelengthSolution(xarr, y, function='poly', order=3)
+    # ws=WS.WavelengthSolution(xp, wp, function='poly', order=3)
 
     ws.fit()
     print(ws.coef)
@@ -100,26 +99,21 @@ def test_ModelSolution():
 
     pl.figure()
     # pl.plot(xarr,y)
-    #pl.plot(xarr, ws.value(xarr))
-    #pl.plot(xp, wp-ws.value(xp), ls='', marker='o')
+    # pl.plot(xarr, ws.value(xarr))
+    # pl.plot(xp, wp-ws.value(xp), ls='', marker='o')
     pl.plot(xarr, y - ws.value(xarr))
-    #pl.plot(ls.x, ls.y-ls(ls.x), ls='', marker='o')
+    # pl.plot(ls.x, ls.y-ls(ls.x), ls='', marker='o')
     pl.show()
 
 
 def test_Linefit():
 
-    hdu = pyfits.open(inimage)
-
-    # create the data arra
-    data = hdu[1].data
+    hdu = fits.open(inimage)
 
     # create the header information
-    instrume = hdu[1].header['INSTRUME'].strip()
     grating = hdu[1].header['GRATING'].strip()
     grang = hdu[1].header['GR-ANGLE']
     arang = hdu[1].header['AR-ANGLE']
-    filter = hdu[1].header['FILTER'].strip()
     slit = float(hdu[1].header['MASKID'])
     xbin, ybin = hdu[1].header['CCDSUM'].strip().split()
 
@@ -140,10 +134,8 @@ def test_Linefit():
     # create the spectrum
     stype = 'line'
     w, s = np.loadtxt(inspectra, usecols=(0, 1), unpack=True)
-    spec = Spectrum(w, s, wrange=[4000, 5000], dw=0.1, stype='line', sigma=sigma)
+    spec = Spectrum(w, s, wrange=[4000, 5000], dw=0.1, stype=stype, sigma=sigma)
     spec.flux = spec.set_dispersion(sigma=sigma)
-
-    sw_arr, sf_arr = spec.wavelength, spec.flux
 
 
 # test_LineSolution()

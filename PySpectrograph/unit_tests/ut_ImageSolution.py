@@ -3,8 +3,8 @@
    best spectrograph design given an input spectrograph and data array
 
 """
-import pyfits
 import numpy as np
+from astropy.io import fits
 
 from ImageSolution import ImageSolution
 import RSSModel
@@ -16,7 +16,7 @@ inspectra = 'Xe.dat'
 
 def test_imagesolution():
     # load the image and determine its spectrograph parameters
-    hdu = pyfits.open(inimage)
+    hdu = fits.open(inimage)
 
     # create the data arra
     data = hdu[1].data
@@ -41,7 +41,7 @@ def test_imagesolution():
     # create the spectrum
     stype = 'line'
     w, s = np.loadtxt(inspectra, usecols=(0, 1), unpack=True)
-    spec = Spectrum.Spectrum(w, s, wrange=[4000, 5000], dw=0.1, stype='line')
+    spec = Spectrum.Spectrum(w, s, wrange=[4000, 5000], dw=0.1, stype=stype)
 
     # Now having the model and the data, set up the variables
     imsol = ImageSolution(data, rssmodel.rss, spec)
