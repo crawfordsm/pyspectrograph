@@ -12,8 +12,6 @@ LIMITATIONS
 
 """
 
-import math
-import numpy as np
 from PySpectrograph.Utilities.fit import interfit
 
 

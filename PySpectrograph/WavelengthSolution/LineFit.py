@@ -13,12 +13,9 @@ LIMITATIONS
 
 """
 
-import math
-import numpy as np
-from scipy import optimize, interpolate
+from scipy import optimize
 
-
-from PySpectrograph.Utilities.fit import fit, interfit
+from PySpectrograph.Utilities.fit import interfit
 
 
 class LineFit(interfit):

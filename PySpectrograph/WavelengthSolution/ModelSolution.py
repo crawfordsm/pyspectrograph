@@ -70,7 +70,7 @@ class ModelSolution:
         for i in range(self.order):
             try:
                 self.ndcoef.append(ft.Parameter(x[i]))
-            except:
+            except BaseException:
                 self.ndcoef.append(ft.Parameter(0.0))
 
     def set_xarr(self, xarr):
@@ -105,7 +105,7 @@ class ModelSolution:
         return 1e7 * self.sgraph.calc_wavelength(alpha, beta - dbeta, gamma=gamma) * self.nd(x)
 
     def erf(self, x, y):
-        retrun(y - self.value(x))
+        return(y - self.value(x))
 
     def fit_coef(self, coef):
         self.result = ft.fit(self.value, coef, self.y, x=self.x)
