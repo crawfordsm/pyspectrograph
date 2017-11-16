@@ -18,7 +18,6 @@ from .Grating import Grating
 from .Optics import Optics
 from .Slit import Slit
 from .Detector import Detector
-from .CCD import CCD
 
 
 class Spectrograph(Grating, Optics, Slit, Detector):

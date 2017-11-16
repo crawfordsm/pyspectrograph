@@ -1,6 +1,3 @@
-import numpy as np
-
-
 class CCD:
 
     """Defines a CCD by x and y position, size, and pixel size.  The x and y position are

@@ -7,9 +7,8 @@ Limitations:
 
 """
 
-import math
-import pyfits
 import numpy as np
+from astropy.io import fits
 
 from PySpectrograph.Spectrograph import *
 from PySpectrograph.Spectra import *
@@ -17,7 +16,7 @@ from PySpectrograph.Spectra import *
 
 def writeout(arr, outfile):
     # make and output the image
-    hdu = pyfits.PrimaryHDU(arr)
+    hdu = fits.PrimaryHDU(arr)
     hdu.writeto(outfile)
 
 
