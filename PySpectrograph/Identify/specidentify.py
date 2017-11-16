@@ -58,7 +58,7 @@ LIMITATIONS
 
 """
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 
 import os
 import sys
@@ -105,7 +105,7 @@ def specidentify(images, linelist, outfile, guesstype, guessfile, function,
 
         # Check the input images
         infiles = saltsafeio.argunpack('Input', images)
-        print infiles
+        print(infiles)
 
         # create list of output files
         outfiles = saltsafeio.argunpack('Input', outfile)
@@ -211,7 +211,7 @@ def identify(img, oimg, slines, sfluxes, guesstype, guessfile, function, order,
                                      verbose=verbose)
 
     # set up the list of solutions to into an array
-    key_arr = np.array(ImageSolution.keys())
+    key_arr = np.array(list(ImageSolution.keys()))
     arg_arr = key_arr.argsort()
     ws_arr = np.zeros((len(arg_arr), len(ws.coef) + 1), dtype=float)
 

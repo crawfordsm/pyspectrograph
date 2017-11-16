@@ -105,12 +105,12 @@ def clipstats(yarr, thresh, iter):
 def findpoints(xarr, farr, sigma, niter):
     """Find all the peaks and the peak flux in a spectrum"""
     xp = detectlines(xarr, farr, sigma=sigma, niter=niter)
-    print xp
+    print(xp)
     mask = [(xp == k).any() for k in xarr]
     xf = np.compress(mask, farr)
     # repeat the second time, but get the centroids for the points
     xp = detectlines(xarr, farr, sigma=sigma, niter=niter, center=True)
-    print xp
+    print(xp)
     return xp, xf
 
 
@@ -163,7 +163,7 @@ def findwavelengthsolution(xarr, farr, sl, sf, ws, sigma=5, niter=5):
         wp = findmatch(xarr, farr, xp, xf, sl, sf, ws)
         for i in range(len(xp)):
             if wp[i] > -1:
-                print xp[i], wp[i]
+                print(xp[i], wp[i])
     except Exception as e:
         message = 'Unable to match line lists because %s' % e
         raise SALTSpecError(message)
@@ -201,7 +201,7 @@ def findfeatures(xarr, farr, sl, sf, ws, sigma=5, niter=5):
         wp = findmatch(xarr, farr, xp, xf, sl, sf, ws)
         for i in range(len(xp)):
             if wp[i] > -1:
-                print xp[i], wp[i]
+                print(xp[i], wp[i])
     except Exception as e:
         message = 'Unable to match line lists because %s' % e
         raise SALTSpecError(message)
@@ -219,11 +219,11 @@ def findmatch(xarr, farr, xp, xf, sl, sf, ws, xlimit=5, wlimit=2):
 
     # calculate it using only xp and sl
     if sf is None and not ws:
-        print 'no'
+        print('no')
 
     # calculate it without any wavelength solution
     elif not ws:
-        print ws
+        print(ws)
 
     # calculate it without any flux information
     elif sf is None and ws:
@@ -240,7 +240,7 @@ def findmatch(xarr, farr, xp, xf, sl, sf, ws, xlimit=5, wlimit=2):
         dcoef[-2] = dcoef[-2] * 0.2
         nstep = 20
         nws = spectramatch(xarr, farr, sl, sf, ws, dcoef, nstep=nstep, res=2, dres=0.1)
-        print 'nws:', nws.coef
+        print('nws:', nws.coef)
         for i in xf.argsort()[::-1]:
             cx = mcentroid(xarr, farr, xc=xp[i], xdiff=4)
             if abs(cx - xp[i]) < xlimit:

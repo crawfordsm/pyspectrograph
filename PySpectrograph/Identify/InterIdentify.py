@@ -55,7 +55,7 @@ LIMITATIONS
 """
 
 # Ensure Python 2.5 compatibility
-from __future__ import with_statement
+
 
 # General imports
 import sys
@@ -172,19 +172,19 @@ class InterIdentifyWindow(QtGui.QMainWindow):
         self.connect(self.imagePage, QtCore.SIGNAL('regionChange(int,int)'), self.regionChange)
 
     def keyPressEvent(self, event):
-        print "Key Pressed:", event.key
+        print("Key Pressed:", event.key)
 
     def currentChanged(self, event):
-        print event
+        print(event)
 
     def regionChange(self, y1, y2):
         self.saveWS()
-        print "RegionChange:", y1, y2
+        print("RegionChange:", y1, y2)
         self.y1 = y1
         self.y2 = y2
         self.farr = apext.makeflat(self.specarr, self.y1, self.y2)
         # set up variables
-        print "FINAL WS:", self.ws.coef
+        print("FINAL WS:", self.ws.coef)
         self.ws = self.newWS(0.5 * (self.y1 + self.y2))
         self.arcdisplay = ArcDisplay(
             self.xarr,
@@ -214,10 +214,10 @@ class InterIdentifyWindow(QtGui.QMainWindow):
 
     def newWS(self, y):
         """Determine the WS closest to the values given by y1 and y2"""
-        keys = np.array(self.ImageSolution.keys())
-        print "keys:", keys
+        keys = np.array(list(self.ImageSolution.keys()))
+        print("keys:", keys)
         i = abs(keys - y).argmin()
-        print i, keys[i]
+        print(i, keys[i])
         return self.ImageSolution[keys[i]]
 
 
@@ -414,7 +414,7 @@ class arcWidget(QtGui.QWidget):
         self.connect(self.arcdisplay, QtCore.SIGNAL('updatex(float)'), self.updatexlabel)
 
     def keyPressEvent(self, event):
-        print "Arc Widget, keyPress:", event
+        print("Arc Widget, keyPress:", event)
 
     def updatexlabel(self, value):
         try:
@@ -489,13 +489,13 @@ class errWidget(QtGui.QWidget):
             wp = np.array(self.arcdisplay.wp)
             w = self.arcdisplay.ws.value(xp)
             value = (wp - w).mean()
-            print value
+            print(value)
             self.aveValueLabel.setText("%4.2g" % value)
             value = (wp - w).std()
-            print value
+            print(value)
             self.stdValueLabel.setText("%4.2g" % value)
         except Exception as e:
-            print e
+            print(e)
 
 
 class ArcDisplay(QtGui.QWidget):
@@ -569,7 +569,7 @@ class ArcDisplay(QtGui.QWidget):
         """Emit signal on key press"""
         if event.key == '?':
             # return the help file
-            print '?:', event.key
+            print('?:', event.key)
         elif event.key == 'c':
             # return the centroid
             if event.xdata:
@@ -622,7 +622,7 @@ class ArcDisplay(QtGui.QWidget):
         """Emit signal on selecting valid image position."""
 
         if event.xdata and event.ydata:
-            print event.xdata, event.ydata, event.canvas, event.name
+            print(event.xdata, event.ydata, event.canvas, event.name)
             self.emit(QtCore.SIGNAL("positionSelected(float, float)"),
                       float(event.xdata), float(event.ydata))
 
@@ -688,8 +688,8 @@ class ArcDisplay(QtGui.QWidget):
         self.redraw_canvas()
 
     def findfit(self):
-        print self.xp
-        print self.wp
+        print(self.xp)
+        print(self.wp)
         self.ws = st.findfit(self.xp, self.wp, function=self.ws.function, order=self.ws.order)
         self.err_redraw_canvas()
 
@@ -702,7 +702,7 @@ class ArcDisplay(QtGui.QWidget):
         else:
             self.xp.append(x)
             self.wp.append(w)
-        print self.xp
+        print(self.xp)
 
     def deletepoints(self, x, save=False):
         """ Delete points from the line list
