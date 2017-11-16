@@ -3,8 +3,7 @@
    best spectrograph design given an input spectrograph and spectrum
 
 """
-import pyfits
-import numpy as np
+from astropy.io import fits
 
 from PySpectrograph.Models import RSSModel
 
@@ -14,17 +13,12 @@ inspectra = 'Xe.dat'
 
 def test_rssmodel():
     # load the image and determine its spectrograph parameters
-    hdu = pyfits.open(inimage)
-
-    # create the data arra
-    data = hdu[1].data
+    hdu = fits.open(inimage)
 
     # create the header information
-    instrume = hdu[1].header['INSTRUME'].strip()
     grating = hdu[1].header['GRATING'].strip()
     grang = hdu[1].header['GR-ANGLE']
     arang = hdu[1].header['AR-ANGLE']
-    filter = hdu[1].header['FILTER'].strip()
     slit = float(hdu[1].header['MASKID'])
     xbin, ybin = hdu[1].header['CCDSUM'].strip().split()
 
@@ -36,7 +30,7 @@ def test_rssmodel():
     beta = rss.beta()
 
     sigma = 1e7 * rss.calc_resolelement(alpha, beta)
-    print "SIGMA: ", sigma
+    print("SIGMA: ", sigma)
 
     # test to see if giving the wrong name it will raise an error
     try:

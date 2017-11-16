@@ -1,4 +1,4 @@
-################################# LICENSE ##################################
+#   ############################# LICENSE ###############################
 # Copyright (c) 2009, South African Astronomical Observatory (SAAO)        #
 # All rights reserved.                                                     #
 #                                                                          #
@@ -28,7 +28,7 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN #
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE          #
 # POSSIBILITY OF SUCH DAMAGE.                                              #
-############################################################################
+#   #####################################################################
 
 """INTERIDENTIFY provides an interactive method for identifying
 lines in an arc image.  The tasks displays the full image, a
@@ -55,30 +55,21 @@ LIMITATIONS
 """
 
 # Ensure Python 2.5 compatibility
-from __future__ import with_statement
+
 
 # General imports
 import sys
-import os
 import numpy as np
-import pyfits
-from pyraf import iraf
-from pyraf.iraf import pysalt
 
 # Gui library imports
 from PyQt4 import QtGui, QtCore
 from matplotlib.backends.backend_qt4agg import NavigationToolbar2QTAgg
 
 # Salt imports
-import saltsafeio
 from saltgui import ImageDisplay, MplCanvas
-from salterror import SaltIOError
 
 from PySpectrograph import apext
 from PySpectrograph import Spectrum
-#from PySpectrograph import RSSModel
-#from PySpectrograph import WavelengthSolution
-#from PySpectrograph.detectlines import detectlines
 
 from . import spectools as st
 from .spectools import SALTSpecError
@@ -167,24 +158,24 @@ class InterIdentifyWindow(QtGui.QMainWindow):
         self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
 
         # Close when config dialog is closed
-        #self.connect(self.conf, QtCore.SIGNAL('destroyed()'), self, QtCore.SLOT('close()'))
+        # self.connect(self.conf, QtCore.SIGNAL('destroyed()'), self, QtCore.SLOT('close()'))
         self.connect(self.tabWidget, QtCore.SIGNAL('currentChanged(int)'), self.currentChanged)
         self.connect(self.imagePage, QtCore.SIGNAL('regionChange(int,int)'), self.regionChange)
 
     def keyPressEvent(self, event):
-        print "Key Pressed:", event.key
+        print("Key Pressed:", event.key)
 
     def currentChanged(self, event):
-        print event
+        print(event)
 
     def regionChange(self, y1, y2):
         self.saveWS()
-        print "RegionChange:", y1, y2
+        print("RegionChange:", y1, y2)
         self.y1 = y1
         self.y2 = y2
         self.farr = apext.makeflat(self.specarr, self.y1, self.y2)
         # set up variables
-        print "FINAL WS:", self.ws.coef
+        print("FINAL WS:", self.ws.coef)
         self.ws = self.newWS(0.5 * (self.y1 + self.y2))
         self.arcdisplay = ArcDisplay(
             self.xarr,
@@ -214,10 +205,10 @@ class InterIdentifyWindow(QtGui.QMainWindow):
 
     def newWS(self, y):
         """Determine the WS closest to the values given by y1 and y2"""
-        keys = np.array(self.ImageSolution.keys())
-        print "keys:", keys
+        keys = np.array(list(self.ImageSolution.keys()))
+        print("keys:", keys)
         i = abs(keys - y).argmin()
-        print i, keys[i]
+        print(i, keys[i])
         return self.ImageSolution[keys[i]]
 
 
@@ -414,7 +405,7 @@ class arcWidget(QtGui.QWidget):
         self.connect(self.arcdisplay, QtCore.SIGNAL('updatex(float)'), self.updatexlabel)
 
     def keyPressEvent(self, event):
-        print "Arc Widget, keyPress:", event
+        print("Arc Widget, keyPress:", event)
 
     def updatexlabel(self, value):
         try:
@@ -427,8 +418,8 @@ class arcWidget(QtGui.QWidget):
         """Add the x and w points to the list of matched points"""
         x = float(self.x1ValueLabel.text())
         w = float(self.w1ValueEdit.text())
-        #x=[1904.5, 1687.22, 3124.3499999999999, 632.57000000000005]
-        #w=[4671.2259999999997, 4624.2757000000001, 4916.5100000000002, 4383.9092000000001]
+        # x=[1904.5, 1687.22, 3124.3499999999999, 632.57000000000005]
+        # w=[4671.2259999999997, 4624.2757000000001, 4916.5100000000002, 4383.9092000000001]
         self.arcdisplay.addpoints(x, w)
 
 
@@ -489,13 +480,13 @@ class errWidget(QtGui.QWidget):
             wp = np.array(self.arcdisplay.wp)
             w = self.arcdisplay.ws.value(xp)
             value = (wp - w).mean()
-            print value
+            print(value)
             self.aveValueLabel.setText("%4.2g" % value)
             value = (wp - w).std()
-            print value
+            print(value)
             self.stdValueLabel.setText("%4.2g" % value)
         except Exception as e:
-            print e
+            print(e)
 
 
 class ArcDisplay(QtGui.QWidget):
@@ -569,7 +560,7 @@ class ArcDisplay(QtGui.QWidget):
         """Emit signal on key press"""
         if event.key == '?':
             # return the help file
-            print '?:', event.key
+            print('?:', event.key)
         elif event.key == 'c':
             # return the centroid
             if event.xdata:
@@ -622,7 +613,7 @@ class ArcDisplay(QtGui.QWidget):
         """Emit signal on selecting valid image position."""
 
         if event.xdata and event.ydata:
-            print event.xdata, event.ydata, event.canvas, event.name
+            print(event.xdata, event.ydata, event.canvas, event.name)
             self.emit(QtCore.SIGNAL("positionSelected(float, float)"),
                       float(event.xdata), float(event.ydata))
 
@@ -688,8 +679,8 @@ class ArcDisplay(QtGui.QWidget):
         self.redraw_canvas()
 
     def findfit(self):
-        print self.xp
-        print self.wp
+        print(self.xp)
+        print(self.wp)
         self.ws = st.findfit(self.xp, self.wp, function=self.ws.function, order=self.ws.order)
         self.err_redraw_canvas()
 
@@ -702,7 +693,7 @@ class ArcDisplay(QtGui.QWidget):
         else:
             self.xp.append(x)
             self.wp.append(w)
-        print self.xp
+        print(self.xp)
 
     def deletepoints(self, x, save=False):
         """ Delete points from the line list

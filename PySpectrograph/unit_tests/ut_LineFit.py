@@ -1,7 +1,6 @@
-import pyfits
 import numpy as np
 import pylab as pl
-
+from astropy.io import fits
 from PySpectrograph.WavelengthSolution import LineFit as LF
 from PySpectrograph.Models import RSSModel
 from PySpectrograph.Spectra import Spectrum
@@ -27,17 +26,15 @@ ep = xp * 0.0 + 0.1
 
 def test_Linefit():
 
-    hdu = pyfits.open(inimage)
+    hdu = fits.open(inimage)
 
     # create the data arra
     data = hdu[1].data
 
     # create the header information
-    instrume = hdu[1].header['INSTRUME'].strip()
     grating = hdu[1].header['GRATING'].strip()
     grang = hdu[1].header['GR-ANGLE']
     arang = hdu[1].header['AR-ANGLE']
-    filter = hdu[1].header['FILTER'].strip()
     slit = float(hdu[1].header['MASKID'])
     xbin, ybin = hdu[1].header['CCDSUM'].strip().split()
 
@@ -63,19 +60,19 @@ def test_Linefit():
     # create artificial spectrum
     stype = 'line'
     w, s = np.loadtxt(inspectra, usecols=(0, 1), unpack=True)
-    cal_spec = Spectrum(w, s, wrange=[4000, 5000], dw=0.1, stype='line', sigma=sigma)
+    cal_spec = Spectrum(w, s, wrange=[4000, 5000], dw=0.1, stype=stype, sigma=sigma)
     cal_spec.flux = cal_spec.set_dispersion(sigma=sigma)
     cal_spec.flux = cal_spec.flux * obs_spec.flux.max() / cal_spec.flux.max() + 1
 
     lf = LF.LineFit(obs_spec, cal_spec, function='legendre', order=3)
     lf.set_coef([4.23180070e+03, 2.45517852e-01, -4.46931562e-06, -2.22067766e-10])
-    print lf(2000)
-    print lf.obs_spec.get_flux(2000), lf.flux(2000)
-    print 'chisq ', (lf.errfit(lf.coef, xarr, farr) ** 2).sum() / 1e7
+    print(lf(2000))
+    print(lf.obs_spec.get_flux(2000), lf.flux(2000))
+    print('chisq ', (lf.errfit(lf.coef, xarr, farr) ** 2).sum() / 1e7)
     lf.set_coef([4.23280070e+03, 2.45517852e-01, -4.46931562e-06, -2.22067766e-10])
-    print lf(2000)
-    print lf.obs_spec.get_flux(2000), lf.flux(2000)
-    print 'chisq ', (lf.errfit(lf.coef, xarr, farr) ** 2).sum() / 1e7
+    print(lf(2000))
+    print(lf.obs_spec.get_flux(2000), lf.flux(2000))
+    print('chisq ', (lf.errfit(lf.coef, xarr, farr) ** 2).sum() / 1e7)
     # print lf.lfit(xarr)
     # print lf.coef
     # print lf(2000)

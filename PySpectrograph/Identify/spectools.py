@@ -14,25 +14,14 @@ LIMITATIONS
 -----------
 
 """
-import pyfits
 import numpy as np
 from scipy import interpolate as scint
-from pyraf import iraf
-import saltprint
-import saltkey
-import saltio
-import salttime
-import saltstat
-import saltsafekey
-import saltsafeio
-import slottool
+from astropy.io import fits
 from salterror import SaltError
-
 
 from PySpectrograph import WavelengthSolution
 from PySpectrograph.detectlines import detectlines, centroid
 from PySpectrograph.Spectrum import Spectrum
-from PySpectrograph.apext import apext
 
 
 class SALTSpecError(SaltError):
@@ -79,9 +68,9 @@ def interpolate(x, x_arr, y_arr, type='interp', order=3, left=None, right=None):
     if type == 'interp':
         y = np.interp(x, x_arr, y_arr, left=left, right=right)
     if type == 'spline':
-        if not left is None:
+        if left is not None:
             y_arr[0] = left
-        if not right is None:
+        if right is not None:
             y_arr[-1] = right
 
         tk = scint.splrep(x_arr, y_arr, k=order)
@@ -105,12 +94,12 @@ def clipstats(yarr, thresh, iter):
 def findpoints(xarr, farr, sigma, niter):
     """Find all the peaks and the peak flux in a spectrum"""
     xp = detectlines(xarr, farr, sigma=sigma, niter=niter)
-    print xp
+    print(xp)
     mask = [(xp == k).any() for k in xarr]
     xf = np.compress(mask, farr)
     # repeat the second time, but get the centroids for the points
     xp = detectlines(xarr, farr, sigma=sigma, niter=niter, center=True)
-    print xp
+    print(xp)
     return xp, xf
 
 
@@ -163,7 +152,7 @@ def findwavelengthsolution(xarr, farr, sl, sf, ws, sigma=5, niter=5):
         wp = findmatch(xarr, farr, xp, xf, sl, sf, ws)
         for i in range(len(xp)):
             if wp[i] > -1:
-                print xp[i], wp[i]
+                print(xp[i], wp[i])
     except Exception as e:
         message = 'Unable to match line lists because %s' % e
         raise SALTSpecError(message)
@@ -201,7 +190,7 @@ def findfeatures(xarr, farr, sl, sf, ws, sigma=5, niter=5):
         wp = findmatch(xarr, farr, xp, xf, sl, sf, ws)
         for i in range(len(xp)):
             if wp[i] > -1:
-                print xp[i], wp[i]
+                print(xp[i], wp[i])
     except Exception as e:
         message = 'Unable to match line lists because %s' % e
         raise SALTSpecError(message)
@@ -219,11 +208,11 @@ def findmatch(xarr, farr, xp, xf, sl, sf, ws, xlimit=5, wlimit=2):
 
     # calculate it using only xp and sl
     if sf is None and not ws:
-        print 'no'
+        print('no')
 
     # calculate it without any wavelength solution
     elif not ws:
-        print ws
+        print(ws)
 
     # calculate it without any flux information
     elif sf is None and ws:
@@ -240,7 +229,7 @@ def findmatch(xarr, farr, xp, xf, sl, sf, ws, xlimit=5, wlimit=2):
         dcoef[-2] = dcoef[-2] * 0.2
         nstep = 20
         nws = spectramatch(xarr, farr, sl, sf, ws, dcoef, nstep=nstep, res=2, dres=0.1)
-        print 'nws:', nws.coef
+        print('nws:', nws.coef)
         for i in xf.argsort()[::-1]:
             cx = mcentroid(xarr, farr, xc=xp[i], xdiff=4)
             if abs(cx - xp[i]) < xlimit:
@@ -410,8 +399,6 @@ def findxcor(xarr, farr, swarr, sfarr, ws, dcoef=None, nstep=20, inttype='interp
 
     # loop through them and deteremine the best cofficient
     cc_arr = np.zeros(len(dlist), dtype=float)
-    zp_arr = np.zeros(len(dlist), dtype=float)
-    dp_arr = np.zeros(len(dlist), dtype=float)
     for i in range(len(dlist)):
         # set the coeficient
         nws.setcoef(dlist[i])
@@ -437,12 +424,12 @@ def findxcor(xarr, farr, swarr, sfarr, ws, dcoef=None, nstep=20, inttype='interp
             if abs(bval - bcoef[j]) < dcoef[j]:
                 bcoef[j] = bval
 
-            #coef=np.polyfit(dlist[:][j], cc_arr, 2)
+            # coef=np.polyfit(dlist[:][j], cc_arr, 2)
             # nws.coef[j]=-0.5*coef[1]/coef[0]
 
     return nws
 
-#------------------------------------------------------------------
+# ------------------------------------------------------------------
 # Read in the line list file
 
 
@@ -455,7 +442,6 @@ def readlinelist(linelist):
     """
     slines = []
     sfluxes = []
-    status = 0
 
     # Check to see if it is a fits file
     # if not, then read in the ascii file
@@ -478,11 +464,11 @@ def readlinelist(linelist):
         sfluxes = np.asarray(sfluxes)
     except Exception as e:
         message = 'Unable to create numpy arrays because %s' % (e)
-        raise SALTSpecError(logfile, message)
+        raise SALTSpecError(message)
 
     return slines, sfluxes
 
-#------------------------------------------------------------------
+# ------------------------------------------------------------------
 # Read in the line list file
 
 
@@ -496,14 +482,13 @@ def readfitslinelist(linelist):
     sfluxes = []
 
     # open the image
-    shdu = pyfits.open(linelist)
+    shdu = fits.open(linelist)
     nhdu = len(shdu)
     # determine if it is a one or two-d image
     # if ndhu=0 then assume that it is in the zeroth image
     # otherwise assume the data is in the first extension
     # assumes the x-axis is the wavelength axis
     if nhdu == 1:
-        ctype1 = shdu[0].header['CTYPE1']
         crval1 = shdu[0].header['CRVAL1']
         cdelt1 = shdu[0].header['CDELT1']
         if shdu[0].data.ndim == 1:
@@ -523,7 +508,7 @@ def readfitslinelist(linelist):
 
     return slines, sfluxes
 
-#------------------------------------------------------------------
+# ------------------------------------------------------------------
 # Read in the line list file
 
 

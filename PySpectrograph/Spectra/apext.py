@@ -3,8 +3,6 @@
 #
 #
 #
-import math
-import numpy as np
 
 
 def makeflat(arr, y1, y2):

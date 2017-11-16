@@ -1,6 +1,5 @@
 import numpy as np
 from detectlines import *
-import pylab as pl
 
 infile = 'Xe.01.spec'
 inlist = 'Xe.dat'
@@ -14,7 +13,8 @@ def centroid2(warr, farr, mask):
 
 def test_centroid():
     xc = 30.2
-    gaussian = lambda x: 3 * np.exp(-0.5 * (xc - x) ** 2 / (3.16 ** 2.))
+
+    def gaussian(x): return 3 * np.exp(-0.5 * (xc - x) ** 2 / (3.16 ** 2.))
     x = np.arange(-50, 50)
     f = gaussian(x)
 
@@ -26,25 +26,24 @@ def test_centroid():
     xcm = centroid(x, f, mask=mask)
 
     if abs(xc - xc1) > 0.01:
-        print "FAIL", xc, xc1
+        print("FAIL", xc, xc1)
     if abs(xc - xcm) > 0.01:
-        print "FAIL", xc, xcm
+        print("FAIL", xc, xcm)
 
 
 def test_find_backstats():
     w, f = np.loadtxt(infile, unpack=True)
     ave, std = find_backstats(f, sigma=3, niter=5)
     if abs(ave - 50) > 1 or (std - 10) > 1:
-        print "FAIL"
+        print("FAIL")
 
 
 def test_find_peaks():
     warr, farr = np.loadtxt(infile, unpack=True)
     xp = find_peaks(farr, 10, 5)
-    wdiff = 10
     for x, w in zip(xp, plist):
         if warr[x] != w:
-            print "FAIL", warr[x], w
+            print("FAIL", warr[x], w)
 
 
 def test_detectlines():
@@ -53,9 +52,10 @@ def test_detectlines():
     wp = detectlines(warr, farr, sigma=10, niter=5, bsigma=3, mask=None, kern=default_kernal, center=False)
     cwp = detectlines(warr, farr, sigma=10, niter=5, bsigma=3, mask=None, kern=default_kernal, center=True)
     if (np.array(wlist, dtype=float) - wp).mean() > 0.01:
-        print 'FAIL center=False'
+        print('FAIL center=False')
     if (np.array(wlist, dtype=float) - cwp).mean() > 0.01:
-        print 'FAIL center=True'
+        print('FAIL center=True')
+
 
 test_centroid()
 test_find_backstats()

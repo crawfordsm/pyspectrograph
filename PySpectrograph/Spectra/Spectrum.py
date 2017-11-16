@@ -99,7 +99,7 @@ class Spectrum:
             elif self.stype == 'continuum':
                 self.flux = np.interp(self.wavelength, wavelength, flux)
             else:
-                raise SpectrumError('%s is not an acceptable stype option' % stype)
+                raise SpectrumError(f'{self.stype} is not an acceptable stype option')
         else:
             self.flux = np.zeros(self.nwave, dtype=float)
 
@@ -134,6 +134,7 @@ class Spectrum:
         """Re-interpolate the spectrum such that the wavelength sampling is given by warr"""
         self.flux = np.interp(warr, self.wavelength, self.flux)
         self.wavelength = warr
+
 
 """
 TODO:
@@ -223,23 +224,3 @@ def fluxtomag(farr, fzero):
         fzero--zero point for the converion
     """
     return -2.5 * np.log10(farr / fzero)
-
-
-if __name__ == '__main__':
-    import sys
-    from pylab import *
-
-    infile = sys.argv[1]
-    stype = sys.argv[2]
-    w1 = float(sys.argv[3])
-    w2 = float(sys.argv[4])
-    dw = float(sys.argv[5])
-
-    w, s = np.loadtxt(infile, usecols=(0, 1), unpack=True)
-
-    spec = Spectrum(w, s, wrange=[w1, w2], dw=dw, stype=stype)
-    spec.set_dispersion(2, nkern=200)
-
-    figure()
-    plot(spec.wavelength, spec.flux)
-    show()

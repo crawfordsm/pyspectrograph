@@ -1,6 +1,7 @@
-
-import pyfits
 import numpy as np
+from astropy.io import fits
+
+from PySpectrograph.Models import RSSModel
 
 inimage = 'fmbxpP200610180009.fits'
 
@@ -19,7 +20,7 @@ wp = np.array([4500.9772,
 
 
 def test_Identify():
-    hdu = pyfits.open(inimage)
+    hdu = fits.open(inimage)
 
     # create the data arra
     data = hdu[1].data
@@ -33,9 +34,9 @@ def test_Identify():
     slit = float(hdu[1].header['MASKID'])
     xbin, ybin = hdu[1].header['CCDSUM'].strip().split()
 
-    print instrume, grating, grang, arang, filter
-    print xbin, ybin
-    print len(data), len(data[0])
+    print(instrume, grating, grang, arang, filter)
+    print(xbin, ybin)
+    print(len(data), len(data[0]))
 
     # create the RSS Model
     rssmodel = RSSModel.RSSModel(grating_name=grating, gratang=grang,

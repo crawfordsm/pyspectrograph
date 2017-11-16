@@ -1,4 +1,3 @@
-#import Spectrum
 from PySpectrograph import Spectrum
 import numpy as np
 import pylab as pl
@@ -9,7 +8,7 @@ oneline = 'one.line'
 
 
 def test_spectrum():
-    print 'testing spectrum...'
+    print('testing spectrum...')
 
     # create a spectrum from a single line
     w, f = np.loadtxt(oneline, usecols=(0, 1), unpack=True)
@@ -39,16 +38,17 @@ def test_vacuum():
     w_air = 6056.125
     w_vac = 6057.8019
     if abs(Spectrum.air2vac(w_air, mode='Morton') - w_vac) > 0.01:
-        print "ERROR in MORTON AIR2VAC calculation"
+        print("ERROR in MORTON AIR2VAC calculation")
     if abs(Spectrum.air2vac(w_air, mode='Ciddor') - w_vac) > 0.01:
-        print "ERROR in CIDDOR AIR2VAC calculation"
-    print w_air, w_vac
+        print("ERROR in CIDDOR AIR2VAC calculation")
+    print(w_air, w_vac)
     if abs(Spectrum.vac2air(w_vac, mode='Ciddor') - w_air) > 0.01:
-        print "ERROR in CIDDOR VAC2AIR calculation"
+        print("ERROR in CIDDOR VAC2AIR calculation")
     if abs(Spectrum.vac2air(w_vac, mode='Morton') - w_air) > 0.01:
-        print "ERROR in MORTON VAC2AIR calculation"
+        print("ERROR in MORTON VAC2AIR calculation")
 
     # check that it works with a
+
 
 test_spectrum()
 test_vacuum()

@@ -62,5 +62,5 @@ def sersic(arr, deg, r_e, ell=1, scale=1):
     else:
         pass
 
-    z = scale * exp(-b * (r ** (1 / deg) - 1))
+    z = scale * np.exp(-ell * (r ** (1 / deg) - 1))
     return z

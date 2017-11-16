@@ -3,7 +3,6 @@
 #
 # This is adopted from apextract
 #
-import math
 import numpy as np
 import scipy.ndimage as nd
 
@@ -147,7 +146,7 @@ def deblendObjects(ldata, y1, y2, thresh=3.0, niter=5, minsize=3):
     try:
         pos_ind = np.where(gdata >= 0)[0].max()
         neg_ind = np.where(gdata <= 0)[0].min()
-    except:
+    except BaseException:
         return [(y1, y2)]
 
     # If this is true, then there is only a single object to extract
@@ -179,8 +178,8 @@ def plotdata(ldata, obj_arr):
     x = np.arange(nlen)
     makeplots.figure(figsize=(6, 6), dpi=72)
     ay = makeplots.axes([0.15, 0.10, 0.8, 0.8])
-    #ay.imshow(med_data, cmap=makeplots.cm.gray, aspect='equal', vmin=-5, vmax=50  )
+    # y.imshow(med_data, cmap=makeplots.cm.gray, aspect='equal', vmin=-5, vmax=50  )
     makeplots.plotline(ay, x, np.gradient(ldata))
-    #makeplots.plotline(ay, x, gdata)
+    # makeplots.plotline(ay, x, gdata)
     makeplots.plotline(ay, x, obj_arr * 100)
     makeplots.show()

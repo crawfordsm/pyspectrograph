@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-################################# LICENSE ##################################
+#   ############################# LICENSE ###############################
 # Copyright (c) 2009, South African Astronomical Observatory (SAAO)        #
 # All rights reserved.                                                     #
 #                                                                          #
@@ -29,7 +29,7 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN #
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE          #
 # POSSIBILITY OF SUCH DAMAGE.                                              #
-############################################################################
+#   #####################################################################
 """
 SPECIDENTIFY  is a program to read in SALT RSS spectroscopic arc lamps and
 determine the wavelength solution for that data.  The input data should be
@@ -58,28 +58,20 @@ LIMITATIONS
 
 """
 # Ensure python 2.5 compatibility
-from __future__ import with_statement
+
 
 import os
-import sys
-import time
 import numpy as np
 
 from pyraf import iraf
-import saltprint
-import saltio
-import saltkey
 import saltsafekey
 import saltsafeio
 from saltsafelog import logging
-from salterror import SaltError, SaltIOError
 
 
 from PySpectrograph import RSSModel
-from PySpectrograph import apext
 from PySpectrograph import WavelengthSolution
 from PySpectrograph import LineSolution
-from PySpectrograph.detectlines import detectlines
 
 
 from . import spectools as st
@@ -101,11 +93,10 @@ def specidentify(images, linelist, outfile, guesstype, guessfile, function,
         # set up the variables
         infiles = []
         outfiles = []
-        status = 0
 
         # Check the input images
         infiles = saltsafeio.argunpack('Input', images)
-        print infiles
+        print(infiles)
 
         # create list of output files
         outfiles = saltsafeio.argunpack('Input', outfile)
@@ -131,11 +122,11 @@ def specidentify(images, linelist, outfile, guesstype, guessfile, function,
                      order, rstep, interact, clobber, log, verbose)
 
 
-#------------------------------------------------------------------
+# ------------------------------------------------------------------
 # Find the solution for lines in a file
 
 def identify(img, oimg, slines, sfluxes, guesstype, guessfile, function, order,
-             rstep, interact, clobber, log, verbose):
+             rstep, interact, clobber, log, verbose, outfile=None):
     """For a given image, find the solution for each row in the file.  Use the appropriate first guess and
        guess type along with the appropriate function and order for the fit.
 
@@ -144,7 +135,6 @@ def identify(img, oimg, slines, sfluxes, guesstype, guessfile, function, order,
 
         returns the status
     """
-    status = 0
     ImageSolution = {}
     dcstep = 3
     nstep = 50
@@ -191,7 +181,7 @@ def identify(img, oimg, slines, sfluxes, guesstype, guessfile, function, order,
         rss = rssmodel.rss
         res = 1e7 * rss.calc_resolelement(rss.gratang, rss.gratang - rss.camang)
 
-        if not instrume in ['PFIS', 'RSS']:
+        if instrume not in ['PFIS', 'RSS']:
             msg = '%s is not a currently supported instrument' % instrume
             raise SALTSpecError(msg)
         ws = useRSSModel(xarr, rss, function=function, order=order)
@@ -211,7 +201,7 @@ def identify(img, oimg, slines, sfluxes, guesstype, guessfile, function, order,
                                      verbose=verbose)
 
     # set up the list of solutions to into an array
-    key_arr = np.array(ImageSolution.keys())
+    key_arr = np.array(list(ImageSolution.keys()))
     arg_arr = key_arr.argsort()
     ws_arr = np.zeros((len(arg_arr), len(ws.coef) + 1), dtype=float)
 
@@ -222,7 +212,7 @@ def identify(img, oimg, slines, sfluxes, guesstype, guessfile, function, order,
             ws_arr[j, 1:] = ImageSolution[key_arr[i]].coef
 
     # write the solution as an file
-    if outfile:
+    if outfile is not None:
         # write header to the file that should include the order and function
         if os.path.isfile(outfile) and not clobber:
             dout = open(outfile, 'a')

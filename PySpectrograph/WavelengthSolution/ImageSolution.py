@@ -13,11 +13,9 @@ LIMITATIONSa
 
 """
 
-import math
 import numpy as np
 
 import fit as ft
-from CreateImage import CreateImage
 
 import pylab as pl
 
@@ -41,7 +39,7 @@ class fitimage:
     def legendre(self, x):
         v = 0
         for i in range(self.order):
-            v += self.coef[i]() * legendre(i)(x)
+            v += self.coef[i]() * self.legendre(i)(x)
         return v
 
     def fit(self, data, x=None, var=None):
@@ -77,7 +75,7 @@ class ImageSolution:
         self.nd2 = ft.Parameter(0.00)
         # self.xpos=ft.Parameter(2*0.015*8.169)
         # self.fcam=ft.Parameter(327.85)
-        #self.coef=[self.xpos, self.ypos, self.fcam]
+        # self.coef=[self.xpos, self.ypos, self.fcam]
         self.coef = [self.nd0, self.nd1, self.nd2]
         # print self.sgraph.gratingequation
 
@@ -89,14 +87,14 @@ class ImageSolution:
         # print self.makewave(500)
         # print self.xpos(), self.ypos(), self.fcam(), self.nd0()
         # print self.nd0(), self.nd1(), self.nd2()
-        #print (self.data1-self.makeflux(xarr)).sum()
+        # print (self.data1-self.makeflux(xarr)).sum()
         self.fit(self.makeflux, self.coef, self.data1, var=self.err1)
 
         warr = self.makewave(xarr)
         # print self.makewave(500)
         # print self.xpos(), self.ypos(), self.fcam()
         # print self.nd0(), self.nd1(), self.nd2()
-        #print (self.data1-self.makeflux(xarr)).sum()
+        # print (self.data1-self.makeflux(xarr)).sum()
 
         # check the results
         pl.figure()

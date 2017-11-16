@@ -1,7 +1,7 @@
 
-import pyfits
 import numpy as np
 import pylab as pl
+from astropy.io import fits
 from PySpectrograph.Models import RSSModel
 from PySpectrograph.WavelengthSolution import ModelSolution as MS
 
@@ -23,7 +23,7 @@ wp = np.array([4500.9772,
 
 def test_ModelSolution():
 
-    hdu = pyfits.open(inimage)
+    hdu = fits.open(inimage)
 
     # create the data arra
     data = hdu[1].data
@@ -37,9 +37,9 @@ def test_ModelSolution():
     slit = float(hdu[1].header['MASKID'])
     xbin, ybin = hdu[1].header['CCDSUM'].strip().split()
 
-    print instrume, grating, grang, arang, filter
-    print xbin, ybin
-    print len(data), len(data[0])
+    print(instrume, grating, grang, arang, filter)
+    print(xbin, ybin)
+    print(len(data), len(data[0]))
 
     # create the RSS Model
     rssmodel = RSSModel.RSSModel(grating_name=grating, gratang=grang,
@@ -51,16 +51,17 @@ def test_ModelSolution():
     ls.fit(cfit='all')
     ls.fit(ls.ndcoef)
     for c in ls.coef:
-        print c(),
-    print
-    print ls.sigma(ls.x, ls.y)
-    print ls.chisq(ls.x, ls.y, err)
-    print ls.value(2000)
+        print(c(), end=' ')
+    print()
+    print(ls.sigma(ls.x, ls.y))
+    print(ls.chisq(ls.x, ls.y, err))
+    print(ls.value(2000))
 
     pl.figure()
     pl.plot(xp, wp - ls.value(xp), ls='', marker='o')
-    #pl.plot(ls.x, ls.y-ls(ls.x), ls='', marker='o')
+    # pl.plot(ls.x, ls.y-ls(ls.x), ls='', marker='o')
     pl.show()
     return
+
 
 test_ModelSolution()
