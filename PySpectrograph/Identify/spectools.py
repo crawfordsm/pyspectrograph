@@ -14,9 +14,9 @@ LIMITATIONS
 -----------
 
 """
-import pyfits
 import numpy as np
 from scipy import interpolate as scint
+from astropy.io import fits
 from salterror import SaltError
 
 from PySpectrograph import WavelengthSolution
@@ -482,7 +482,7 @@ def readfitslinelist(linelist):
     sfluxes = []
 
     # open the image
-    shdu = pyfits.open(linelist)
+    shdu = fits.open(linelist)
     nhdu = len(shdu)
     # determine if it is a one or two-d image
     # if ndhu=0 then assume that it is in the zeroth image

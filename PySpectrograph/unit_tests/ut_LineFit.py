@@ -1,7 +1,6 @@
-import pyfits
 import numpy as np
 import pylab as pl
-
+from astropy.io import fits
 from PySpectrograph.WavelengthSolution import LineFit as LF
 from PySpectrograph.Models import RSSModel
 from PySpectrograph.Spectra import Spectrum
@@ -27,7 +26,7 @@ ep = xp * 0.0 + 0.1
 
 def test_Linefit():
 
-    hdu = pyfits.open(inimage)
+    hdu = fits.open(inimage)
 
     # create the data arra
     data = hdu[1].data

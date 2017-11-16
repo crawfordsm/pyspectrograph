@@ -1,7 +1,7 @@
 
-import pyfits
 import numpy as np
 import pylab as pl
+from astropy.io import fits
 from PySpectrograph.Models import RSSModel
 from PySpectrograph.WavelengthSolution import ModelSolution as MS
 
@@ -23,7 +23,7 @@ wp = np.array([4500.9772,
 
 def test_ModelSolution():
 
-    hdu = pyfits.open(inimage)
+    hdu = fits.open(inimage)
 
     # create the data arra
     data = hdu[1].data
