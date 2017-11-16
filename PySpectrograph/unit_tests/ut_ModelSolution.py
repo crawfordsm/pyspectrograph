@@ -37,9 +37,9 @@ def test_ModelSolution():
     slit = float(hdu[1].header['MASKID'])
     xbin, ybin = hdu[1].header['CCDSUM'].strip().split()
 
-    print instrume, grating, grang, arang, filter
-    print xbin, ybin
-    print len(data), len(data[0])
+    print(instrume, grating, grang, arang, filter)
+    print(xbin, ybin)
+    print(len(data), len(data[0]))
 
     # create the RSS Model
     rssmodel = RSSModel.RSSModel(grating_name=grating, gratang=grang,
@@ -51,11 +51,11 @@ def test_ModelSolution():
     ls.fit(cfit='all')
     ls.fit(ls.ndcoef)
     for c in ls.coef:
-        print c(),
-    print
-    print ls.sigma(ls.x, ls.y)
-    print ls.chisq(ls.x, ls.y, err)
-    print ls.value(2000)
+        print(c(), end=' ')
+    print()
+    print(ls.sigma(ls.x, ls.y))
+    print(ls.chisq(ls.x, ls.y, err))
+    print(ls.value(2000))
 
     pl.figure()
     pl.plot(xp, wp - ls.value(xp), ls='', marker='o')

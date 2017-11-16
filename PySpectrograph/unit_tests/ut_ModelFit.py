@@ -45,8 +45,8 @@ def test_imagesolution():
     slit = float(hdu[1].header['MASKID'])
     xbin, ybin = hdu[1].header['CCDSUM'].strip().split()
 
-    print instrume, grating, grang, arang, filter
-    print xbin, ybin
+    print(instrume, grating, grang, arang, filter)
+    print(xbin, ybin)
 
     # create the RSS Model
     rssmodel = RSSModel.RSSModel(grating_name=grating, gratang=grang,
@@ -81,12 +81,12 @@ def test_imagesolution():
         # for i in range(len(imsol.ndcoef)):
         #    print imsol.ndcoef[i]()
 
-        print output.beta
-        print imsol.value(output.beta, 500)
+        print(output.beta)
+        print(imsol.value(output.beta, 500))
 
         # check the results
         warr = imsol.value(output.beta, imsol.xarr)
-        print (wp - imsol.value(output.beta, xp)).mean(), (wp - imsol.value(output.beta, xp)).std()
+        print((wp - imsol.value(output.beta, xp)).mean(), (wp - imsol.value(output.beta, xp)).std())
         pl.figure()
         pl.plot(imsol.spectrum.wavelength, imsol.spectrum.flux * imsol.farr.max() / imsol.spectrum.flux.max())
         pl.plot(warr, imsol.farr)
@@ -102,15 +102,15 @@ def test_imagesolution():
     imsol = LineSolution(rssmodel.rss, xarr=xspec.wavelength, farr=xspec.flux, spectrum=wspec, yval=0, var=var, order=3)
     imsol.xlen = xlen
     output = imsol.fit(imsol.value, imsol.coef, xp, wp, var)
-    print output.beta
+    print(output.beta)
     #imsol.fit(imsol.value, imsol.ndcoef, xp, wp, var)
     # for i in range(len(imsol.coef)):
     # print imsol.coef[i])
     # for i in range(len(imsol.ndcoef)):
     #    print imsol.ndcoef[i]()
 
-    print imsol.value(output.beta, 500)
-    print (wp - imsol.value(output.beta, xp)).mean(), (wp - imsol.value(output.beta, xp)).std()
+    print(imsol.value(output.beta, 500))
+    print((wp - imsol.value(output.beta, xp)).mean(), (wp - imsol.value(output.beta, xp)).std())
 
     # check the results
     warr = imsol.value(output.beta, xarr)

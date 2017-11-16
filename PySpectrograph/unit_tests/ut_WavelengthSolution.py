@@ -28,10 +28,10 @@ ep = xp * 0.0 + 0.1
 def test_LineSolution():
     ws = WS.WavelengthSolution(xp, wp, function='poly')
     ws.fit()
-    print ws.func.coef
-    print ws.value(2000)
-    print ws.sigma(ws.func.x, ws.func.y)
-    print ws.chisq(ws.func.x, ws.func.y, ws.func.yerr)
+    print(ws.func.coef)
+    print(ws.value(2000))
+    print(ws.sigma(ws.func.x, ws.func.y))
+    print(ws.chisq(ws.func.x, ws.func.y, ws.func.yerr))
 
     pl.figure()
     pl.plot(xp, wp - ws.value(xp), ls='', marker='o')
@@ -88,15 +88,15 @@ def test_ModelSolution():
     #ws=WS.WavelengthSolution(xp, wp, function='poly', order=3)
 
     ws.fit()
-    print ws.coef
-    print ws.func.result
+    print(ws.coef)
+    print(ws.func.result)
     for c in ws.func.spcoef:
-        print c()
+        print(c())
     for c in ws.func.ndcoef:
-        print c()
-    print ws.value(2000)
-    print ws.sigma(xp, wp)
-    print ws.chisq(xp, wp, ep)
+        print(c())
+    print(ws.value(2000))
+    print(ws.sigma(xp, wp))
+    print(ws.chisq(xp, wp, ep))
 
     pl.figure()
     # pl.plot(xarr,y)

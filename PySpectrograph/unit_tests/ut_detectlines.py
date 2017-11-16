@@ -26,16 +26,16 @@ def test_centroid():
     xcm = centroid(x, f, mask=mask)
 
     if abs(xc - xc1) > 0.01:
-        print "FAIL", xc, xc1
+        print("FAIL", xc, xc1)
     if abs(xc - xcm) > 0.01:
-        print "FAIL", xc, xcm
+        print("FAIL", xc, xcm)
 
 
 def test_find_backstats():
     w, f = np.loadtxt(infile, unpack=True)
     ave, std = find_backstats(f, sigma=3, niter=5)
     if abs(ave - 50) > 1 or (std - 10) > 1:
-        print "FAIL"
+        print("FAIL")
 
 
 def test_find_peaks():
@@ -44,7 +44,7 @@ def test_find_peaks():
     wdiff = 10
     for x, w in zip(xp, plist):
         if warr[x] != w:
-            print "FAIL", warr[x], w
+            print("FAIL", warr[x], w)
 
 
 def test_detectlines():
@@ -53,9 +53,9 @@ def test_detectlines():
     wp = detectlines(warr, farr, sigma=10, niter=5, bsigma=3, mask=None, kern=default_kernal, center=False)
     cwp = detectlines(warr, farr, sigma=10, niter=5, bsigma=3, mask=None, kern=default_kernal, center=True)
     if (np.array(wlist, dtype=float) - wp).mean() > 0.01:
-        print 'FAIL center=False'
+        print('FAIL center=False')
     if (np.array(wlist, dtype=float) - cwp).mean() > 0.01:
-        print 'FAIL center=True'
+        print('FAIL center=True')
 
 test_centroid()
 test_find_backstats()

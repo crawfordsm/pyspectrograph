@@ -30,8 +30,8 @@ def test_imagesolution():
     slit = float(hdu[1].header['MASKID'])
     xbin, ybin = hdu[1].header['CCDSUM'].strip().split()
 
-    print instrume, grating, grang, arang, filter
-    print xbin, ybin
+    print(instrume, grating, grang, arang, filter)
+    print(xbin, ybin)
 
     # create the RSS Model
     rssmodel = RSSModel.RSSModel(grating_name=grating, gratang=grang,

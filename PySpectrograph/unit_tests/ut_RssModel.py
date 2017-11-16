@@ -36,7 +36,7 @@ def test_rssmodel():
     beta = rss.beta()
 
     sigma = 1e7 * rss.calc_resolelement(alpha, beta)
-    print "SIGMA: ", sigma
+    print("SIGMA: ", sigma)
 
     # test to see if giving the wrong name it will raise an error
     try:

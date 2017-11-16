@@ -21,9 +21,9 @@ wp = np.array([4500.9772,
 def test_LineSolution():
     ls = LS.LineSolution(xp, wp, function='legendre')
     ls.interfit()
-    print ls.coef
-    print ls.sigma(ls.x, ls.y)
-    print ls.value(2000)
+    print(ls.coef)
+    print(ls.sigma(ls.x, ls.y))
+    print(ls.value(2000))
 
     pl.figure()
     pl.plot(xp, wp - ls(xp), ls='', marker='o')

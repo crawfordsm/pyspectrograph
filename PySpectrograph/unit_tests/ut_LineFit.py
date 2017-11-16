@@ -69,13 +69,13 @@ def test_Linefit():
 
     lf = LF.LineFit(obs_spec, cal_spec, function='legendre', order=3)
     lf.set_coef([4.23180070e+03, 2.45517852e-01, -4.46931562e-06, -2.22067766e-10])
-    print lf(2000)
-    print lf.obs_spec.get_flux(2000), lf.flux(2000)
-    print 'chisq ', (lf.errfit(lf.coef, xarr, farr) ** 2).sum() / 1e7
+    print(lf(2000))
+    print(lf.obs_spec.get_flux(2000), lf.flux(2000))
+    print('chisq ', (lf.errfit(lf.coef, xarr, farr) ** 2).sum() / 1e7)
     lf.set_coef([4.23280070e+03, 2.45517852e-01, -4.46931562e-06, -2.22067766e-10])
-    print lf(2000)
-    print lf.obs_spec.get_flux(2000), lf.flux(2000)
-    print 'chisq ', (lf.errfit(lf.coef, xarr, farr) ** 2).sum() / 1e7
+    print(lf(2000))
+    print(lf.obs_spec.get_flux(2000), lf.flux(2000))
+    print('chisq ', (lf.errfit(lf.coef, xarr, farr) ** 2).sum() / 1e7)
     # print lf.lfit(xarr)
     # print lf.coef
     # print lf(2000)
