@@ -1,16 +1,16 @@
 [run]
-source = {packagename}
+source = {PySpectrograph}
 omit =
-   {packagename}/_astropy_init*
-   {packagename}/conftest*
-   {packagename}/cython_version*
-   {packagename}/setup_package*
-   {packagename}/*/setup_package*
-   {packagename}/*/*/setup_package*
-   {packagename}/tests/*
-   {packagename}/*/tests/*
-   {packagename}/*/*/tests/*
-   {packagename}/version*
+   {PySpectrograph}/_astropy_init*
+   {PySpectrograph}/conftest*
+   {PySpectrograph}/cython_version*
+   {PySpectrograph}/setup_package*
+   {PySpectrograph}/*/setup_package*
+   {PySpectrograph}/*/*/setup_package*
+   {PySpectrograph}/tests/*
+   {PySpectrograph}/*/tests/*
+   {PySpectrograph}/*/*/tests/*
+   {PySpectrograph}/version*
 
 [report]
 exclude_lines =
