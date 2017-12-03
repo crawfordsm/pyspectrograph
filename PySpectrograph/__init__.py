@@ -29,7 +29,6 @@ if not _ASTROPY_SETUP_:
     from . import WavelengthSolution
 
     __all__ = ['Identify', 'Models', 'Spectra', 'Spectrograph', 'Utilities', 'WavelengthSolution']
-__version__ = 0.30
 
 
 # general class for errors
