@@ -11,7 +11,7 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   Spectra
+.. Spectra
    Spectrograph
    Models
    Utilities
